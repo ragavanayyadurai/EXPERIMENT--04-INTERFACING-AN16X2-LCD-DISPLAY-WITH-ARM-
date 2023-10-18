@@ -1,8 +1,25 @@
-# EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM AND DISPLAY STRING
+```
+NAME : Ragavendran A 
+REG NO : 212222230114
+```
+# EXPERIMENT-04 INTERFACING AN16X2 LCD DISPLAY WITH ARM AND DISPLAY STRING
 
 
- ## Aim: To Interface a 16X2 LCD display to ARM controller  , and simulate it in Proteus 
-## Components required: STM32 CUBE IDE, Proteus 8 simulator .
+## Aim: 
+To Interface a 16X2 LCD display to ARM controller  , and simulate it in Proteus 
+## Components required:
+STM32 CUBE IDE, Proteus 8 simulator .
+## Procedure:
+1. Open a new STM32 Project.
+2. Selecting GPIO Ports
+   
+     PA0 ,PA1 ,PA2 ,PA3 ,PB0 ,PB1 -> GPIO Output
+3. generating the code.
+4. Build Debug and Create 'hex file'.
+5. Open a new Proteus Project.
+6. Select Ports STM32F401RB and LCD 16*2
+7. Connect PA0 to D7 , PA1 to D6 , PA2 to D5 , PA3 to D5 , RS  to  PB0  and  E  to  PB1.
+8. Check the execution of the output using Run option.
 ## Theory 
 The full form of an ARM is an advanced reduced instruction set computer (RISC) machine, and it is a 32-bit processor architecture expanded by ARM holdings. The applications of an ARM processor include several microcontrollers as well as processors. The architecture of an ARM processor was licensed by many corporations for designing ARM processor-based SoC products and CPUs. This allows the corporations to manufacture their products using ARM architecture. Likewise, all main semiconductor companies will make ARM-based SOCs such as Samsung, Atmel, TI etc.
 
@@ -114,58 +131,45 @@ C2
 
 Jump to second line, position 2
  
-## Procedure:
- 
-1.  Creating Proteus project and running the simulation
-We are now at the last part of step by step guide on how to simulate STM32 project in Proteus.
 
-2. Create a new Proteus project and place STM32F40xx i.e. the same MCU for which the project was created in STM32Cube IDE. 
-3. After creation of the circuit as per requirement as shown below 
 
-![image](https://user-images.githubusercontent.com/36288975/233856847-32bea88a-565f-4e01-9c7e-4f7ed546ddf6.png)
-
-4. Double click on the the MCU part to open settings. Next to the Program File option, give full path to the Hex file generated using STM32Cube IDE. Then set the external crystal frequency to 8M (i.e. 8 MHz). Click OK to save the changes.
-https://engineeringxpert.com/wp-content/uploads/2022/04/26.png
-
-5. click on debug and simulate using simulation as shown below 
-
-![image](https://user-images.githubusercontent.com/36288975/233856904-99eb708a-c907-4595-9025-c9dbd89b8879.png)
-
-## CIRCUIT DIAGRAM 
-![image](https://user-images.githubusercontent.com/36288975/233857974-bda6200e-4f88-4e7b-b189-4da80210fa23.png)
 
 
 ## STM 32 CUBE PROGRAM :
-```c
+
+```
 #include "main.h"
-#include "lcd.h"
+#include  "lcd.h"
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-
 int main(void)
 {
-  HAL_Init();
-  SystemClock_Config();
-  MX_GPIO_Init();
-  Lcd_PortType ports[]={GPIOA,GPIOA,GPIOA,GPIOA};
-  Lcd_PinType pins[]={GPIO_PIN_3,GPIO_PIN_2,GPIO_PIN_1,GPIO_PIN_0};
-  Lcd_HandleTypeDef lcd;
-  lcd=Lcd_create(ports,pins,GPIOB,GPIO_PIN_0,GPIOB,GPIO_PIN_1,LCD_4_BIT_MODE);
-  while (1)
+    HAL_Init();  
+    SystemClock_Config();
+    MX_GPIO_Init();
+      Lcd_PortType ports[] = {GPIOA,GPIOA,GPIOA,GPIOA};
+      Lcd_PinType pins[] = {GPIO_PIN_3,GPIO_PIN_2,GPIO_PIN_1,GPIO_PIN_0};
+      Lcd_HandleTypeDef lcd;
+      lcd=Lcd_create(ports,pins,GPIOB,GPIO_PIN_0,GPIOB,GPIO_PIN_1,LCD_4_BIT_MODE);
+    while (1)
   {
-	  
-	  Lcd_cursor(&lcd,0,0);
-	  Lcd_string(&lcd,"\tSanjay");
-	  Lcd_cursor(&lcd,1,0);
-	  Lcd_string(&lcd,"Ragavendar");
-	  HAL_Delay(100);
+	  Lcd_cursor(&lcd,0,1);
+	  Lcd_string(&lcd,"Sanjay\n");
+
+
+	  for( int x=0;x<100;x++)
+	  {
+		  Lcd_cursor(&lcd,1,0);
+		  Lcd_string(&lcd,"212222230132\n");
+	  HAL_Delay (200);
+	  }
+	  Lcd_clear(&lcd);
   }
-}
+} 
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
@@ -176,43 +180,27 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-}
-
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
-
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
-
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
 }
 void Error_Handler(void)
 {
+ 
   __disable_irq();
   while (1)
   {
@@ -222,18 +210,19 @@ void Error_Handler(void)
 #ifdef  USE_FULL_ASSERT
 void assert_failed(uint8_t *file, uint32_t line)
 {
+ 
 }
-#endif /* USE_FULL_ASSERT */
+#endif
 ```
-
-
-
 ## Output screen shots of proteus  :
-<img src="https://github.com/Sanjay-2610/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/91368803/7d5f7ce6-8fdf-44c8-ac3f-ad6d947c572c" width=475 height=475>
+![pmc](https://github.com/ragavanayyadurai/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/118749557/68a0f8ae-9f12-42a7-a809-6f76d7e0279a)
+
+
 
  
  ## CIRCUIT DIAGRAM (EXPORT THE GRAPHICS TO PDF AND ADD THE SCREEN SHOT HERE): 
- <img src="https://github.com/Sanjay-2610/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/91368803/b8ee02ab-0a57-4b3c-8f1e-b296f3a42213" width=475 height=475>
  
+ ![image](https://github.com/22002102/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/119091638/c3b6e4ba-320e-4ccf-bb7a-8f83ba7712a5)
+
 ## Result :
-Interfacing a lcd display with ARM microcontroller are simulated in proteus and the results are verified.
+Interfacing a lcd display with ARM microcontroller are simulated in proteus and the results are verified.
