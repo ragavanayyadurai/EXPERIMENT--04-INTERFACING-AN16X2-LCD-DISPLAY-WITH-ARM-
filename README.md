@@ -215,7 +215,7 @@ void assert_failed(uint8_t *file, uint32_t line)
 #endif
 ```
 ## Output screen shots of proteus  :
-< img src= "https://github.com/ragavanayyadurai/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/118749557/68a0f8ae-9f12-42a7-a809-6f76d7e0279a" height = 450 width = 450>
+<img src= "https://github.com/ragavanayyadurai/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/118749557/68a0f8ae-9f12-42a7-a809-6f76d7e0279a" height = 450 width = 450>
 
 
 
