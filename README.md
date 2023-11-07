@@ -155,13 +155,13 @@ int main(void)
     while (1)
   {
 	  Lcd_cursor(&lcd,0,1);
-	  Lcd_string(&lcd,"Sanjay\n");
+	  Lcd_string(&lcd,"Ragavendran\n");
 
 
 	  for( int x=0;x<100;x++)
 	  {
 		  Lcd_cursor(&lcd,1,0);
-		  Lcd_string(&lcd,"212222230132\n");
+		  Lcd_string(&lcd,"212222230114\n");
 	  HAL_Delay (200);
 	  }
 	  Lcd_clear(&lcd);
